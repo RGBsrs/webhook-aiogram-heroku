@@ -19,8 +19,9 @@ async def echo(message: types.Message):
     await message.answer('start processing')
     answer = ''
     for post in posts:
-        answer += post[0] + '\n' + post[1]+'\n'
-    await message.answer(answer)
+        answer += post[0] + '\n' + post[1] + '\n'
+    if answer:
+        await message.answer(answer)
 
 async def on_startup(dp):
     logging.warning(

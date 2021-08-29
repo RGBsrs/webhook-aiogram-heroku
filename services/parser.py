@@ -1,7 +1,6 @@
 import requests
 import logging
 from bs4 import BeautifulSoup
-from requests.models import parse_header_links
 
 
 class BaseParser:
