@@ -5,17 +5,20 @@ from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils.executor import start_webhook
 from bot.settings import *
+from services.parser import PdaParser
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher(bot)
 dp.middleware.setup(LoggingMiddleware())
+pda_parser = PdaParser()
 
 
 @dp.message_handler(commands=['4pda'])
 async def echo(message: types.Message):
-    # logging.warning(f'Recieved a message from {message.from_user}')
-
-    await message.reply("parsing 4pda")
+    posts = pda_parser.process_html()
+    for post in posts:
+        message_text = post(0) +'\n' + post(1)
+        await message.answer(message_text)
 
 async def on_startup(dp):
     logging.warning(
