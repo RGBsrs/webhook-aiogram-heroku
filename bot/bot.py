@@ -17,10 +17,9 @@ pda_parser = PdaParser()
 async def echo(message: types.Message):
     resp = await pda_parser.get_response()
     await message.answer(resp.status_code)
-    posts = await pda_parser.process_html()
-    await message.answer('start processing')
-    logging.warning('make asnwer')
-    if posts:
+    if resp.status_code == 200:
+        posts = await pda_parser.process_html()
+        logging.warning('make asnwer')
         await message.answer(posts)
 
 async def on_startup(dp):

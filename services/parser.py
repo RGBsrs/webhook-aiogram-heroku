@@ -1,5 +1,5 @@
 import httpx
-import logging
+import asyncio
 from bs4 import BeautifulSoup
 
 
@@ -9,8 +9,25 @@ class BaseParser:
 
     async def get_response(self):
         async with httpx.AsyncClient() as client:
-            response = await client.get(self.base_url, headers={'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36'})
+            response = await client.get(self.base_url, headers={
+                'date': 'Sun, 29 Aug 2021 10:53:02 GMT',
+                'content-type': 'text/html; charset=windows-1251', 
+                'transfer-encoding': 'chunked', 
+                'connection': 'keep-alive', 
+                'expires': 'Thu, 01 Jan 1970 00:00:00 GMT', 
+                'cache-control': 'no-cache, must-revalidate', 
+                'pragma': 'no-cache', 
+                'cf-cache-status': 'HIT', 
+                'age': '381', 
+                'expect-ct': 
+                'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"', 
+                'vary': 'Accept-Encoding', 
+                'server': 'cloudflare', 
+                'cf-ray': '68653bb8bcc22d37-KBP', 
+                'content-encoding': 'gzip'}
+                )
         return response
+
     
     async def get_soup(self):
         html = await self.get_response()
@@ -36,3 +53,11 @@ class PdaParser(BaseParser):
             href = post_header.find('a',href = True)['href']
             content += f'{post_header.get_text()}' +'\n' + f'{href}' +'\n'
         return content
+
+
+async def main():
+    paser = PdaParser()
+    content = await paser.process_html()
+    print(content)
+
+asyncio.run(main())
