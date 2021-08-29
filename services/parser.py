@@ -8,24 +8,10 @@ class BaseParser:
     base_url = ''
 
     async def get_response(self):
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'}
+
         async with httpx.AsyncClient() as client:
-            response = await client.get(self.base_url, headers={
-                'date': 'Sun, 29 Aug 2021 10:53:02 GMT',
-                'content-type': 'text/html; charset=windows-1251', 
-                'transfer-encoding': 'chunked', 
-                'connection': 'keep-alive', 
-                'expires': 'Thu, 01 Jan 1970 00:00:00 GMT', 
-                'cache-control': 'no-cache, must-revalidate', 
-                'pragma': 'no-cache', 
-                'cf-cache-status': 'HIT', 
-                'age': '381', 
-                'expect-ct': 
-                'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"', 
-                'vary': 'Accept-Encoding', 
-                'server': 'cloudflare', 
-                'cf-ray': '68653bb8bcc22d37-KBP', 
-                'content-encoding': 'gzip'}
-                )
+            response = await client.get(self.base_url, headers=headers)
         return response
 
     
@@ -53,11 +39,3 @@ class PdaParser(BaseParser):
             href = post_header.find('a',href = True)['href']
             content += f'{post_header.get_text()}' +'\n' + f'{href}' +'\n'
         return content
-
-
-async def main():
-    paser = PdaParser()
-    content = await paser.process_html()
-    print(content)
-
-asyncio.run(main())
