@@ -37,13 +37,8 @@ class PdaParser(BaseParser):
         post_headers = soup.find_all('h2',class_='list-post-title')
         content = []
         for post_header in post_headers:
-            post = list()
+            post = []
             post.append(post_header.get_text())
             post.append(post_header.find('a',href = True)['href'])
             content.append(post)
-        print(content[0][1])
         return content
-
-parser= PdaParser()
-
-parser.process_html()
