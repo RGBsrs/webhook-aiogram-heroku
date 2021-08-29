@@ -1,6 +1,7 @@
 import requests
 import logging
 from bs4 import BeautifulSoup
+from requests.models import parse_header_links
 
 
 class BaseParser:
@@ -40,4 +41,9 @@ class PdaParser(BaseParser):
             post.append(post_header.get_text())
             post.append(post_header.find('a',href = True)['href'])
             content.append(post)
+        print(content[0][1])
         return content
+
+parser= PdaParser()
+
+parser.process_html()
