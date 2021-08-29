@@ -7,16 +7,15 @@ class BaseParser:
 
     base_url = ''
 
-    async def get_html_text(self):
+    async def get_response(self):
         async with httpx.AsyncClient() as client:
             response = await client.get(self.base_url)
-        html = response
-        return html.text
+        return response
     
     async def get_soup(self):
-        html = await self.get_html_text()
+        html = await self.get_response()
         if html:
-            soup = BeautifulSoup(html, 'lxml')
+            soup = BeautifulSoup(html.text, 'lxml')
             return soup
         else:
             return
