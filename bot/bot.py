@@ -14,14 +14,14 @@ pda_parser = PdaParser()
 
 
 @dp.message_handler(commands=['4pda'])
-def echo(message: types.Message):
-    posts = pda_parser.process_html()
-    message.answer('start processing')
+async def echo(message: types.Message):
+    posts = await pda_parser.process_html()
+    await message.answer('start processing')
     answer = ''
     for post in posts:
         answer += post[0] + '\n' + post[1] + '\n'
     if answer:
-        message.answer(answer)
+        await message.answer(answer)
 
 async def on_startup(dp):
     logging.warning(
