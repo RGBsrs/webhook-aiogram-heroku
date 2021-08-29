@@ -17,7 +17,6 @@ habr_parser = HabrParser()
 @dp.message_handler(commands=['4pda'])
 async def echo(message: types.Message):
     resp = await pda_parser.get_response()
-    await message.answer(resp.status_code)
     if resp.status_code == 200:
         posts = await pda_parser.process_html()
         logging.warning('make asnwer')
@@ -26,7 +25,6 @@ async def echo(message: types.Message):
 @dp.message_handler(commands=['habr'])
 async def echo(message: types.Message):
     resp = await habr_parser.get_response()
-    await message.answer(resp.status_code)
     if resp.status_code == 200:
         posts = await pda_parser.process_html()
         logging.warning('make asnwer')

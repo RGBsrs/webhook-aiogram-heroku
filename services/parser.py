@@ -1,3 +1,4 @@
+from os import pardir
 import httpx
 import asyncio
 from bs4 import BeautifulSoup
@@ -56,3 +57,9 @@ class HabrParser(BaseParser):
         return content
 
 
+async def main():
+    parser = HabrParser()
+    post = await parser.process_html()
+    print(post)
+
+asyncio.run(main())
