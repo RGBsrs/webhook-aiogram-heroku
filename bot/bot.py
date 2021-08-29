@@ -17,12 +17,9 @@ pda_parser = PdaParser()
 async def echo(message: types.Message):
     posts = await pda_parser.process_html()
     await message.answer('start processing')
-    answer = ''
-    for post in posts:
-        answer += post[0] + '\n' + post[1] + '\n'
-        logging.warning('make asnwer')
-    if answer:
-        await message.answer(answer)
+    logging.warning('make asnwer')
+    if posts:
+        await message.answer(posts)
 
 async def on_startup(dp):
     logging.warning(

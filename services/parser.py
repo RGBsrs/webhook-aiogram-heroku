@@ -32,10 +32,8 @@ class PdaParser(BaseParser):
     async def process_html(self):
         soup = await self.get_soup()
         post_headers = soup.find_all('h2',class_='list-post-title')
-        content = []
+        content = ''
         for post_header in post_headers:
-            post = []
-            post.append(post_header.get_text())
-            post.append(post_header.find('a',href = True)['href'])
-            content.append(post)
+            href = post_header.find('a',href = True)['href']
+            content += f'{post_header.get_text()}' +'\n' + f'{href}' +'\n'
         return content
