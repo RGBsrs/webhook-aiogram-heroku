@@ -5,17 +5,27 @@ from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils.executor import start_webhook
 from bot.settings import *
-from services.parser import PdaParser
+from services.parser import PdaParser, HabrParser
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher(bot)
 dp.middleware.setup(LoggingMiddleware())
 pda_parser = PdaParser()
+habr_parser = HabrParser()
 
 
 @dp.message_handler(commands=['4pda'])
 async def echo(message: types.Message):
     resp = await pda_parser.get_response()
+    await message.answer(resp.status_code)
+    if resp.status_code == 200:
+        posts = await pda_parser.process_html()
+        logging.warning('make asnwer')
+        await message.answer(posts)
+
+@dp.message_handler(commands=['habr'])
+async def echo(message: types.Message):
+    resp = await habr_parser.get_response()
     await message.answer(resp.status_code)
     if resp.status_code == 200:
         posts = await pda_parser.process_html()

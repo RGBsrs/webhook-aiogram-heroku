@@ -39,3 +39,20 @@ class PdaParser(BaseParser):
             href = post_header.find('a',href = True)['href']
             content += f'{post_header.get_text()}' +'\n' + f'{href}' +'\n'
         return content
+
+
+class HabrParser:
+
+    def __init__(self) -> None:
+        self.base_url = 'https://habr.com/ru/all/'
+    
+    async def process_html(self):
+        soup = await self.get_soup()
+        post_headers = soup.find_all('h2',class_='tm-article-snippet__title tm-article-snippet__title_h2')
+        content = ''
+        for post_header in post_headers:
+            href = post_header.find('a',href = True)['href']
+            content += f'{post_header.get_text()}' +'\n' + f'{href}' +'\n'
+        return content
+
+
