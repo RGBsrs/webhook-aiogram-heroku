@@ -57,9 +57,9 @@ class HabrParser(BaseParser):
         return content
 
 
-async def main():
-    parser = HabrParser()
-    post = await parser.process_html()
-    print(post)
+# async def main():
+#     parser = HabrParser()
+#     post = await parser.process_html()
+#     print(post)
 
-asyncio.run(main())
+# asyncio.run(main())
