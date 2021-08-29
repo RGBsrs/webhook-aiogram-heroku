@@ -20,6 +20,7 @@ async def echo(message: types.Message):
     answer = ''
     for post in posts:
         answer += post[0] + '\n' + post[1] + '\n'
+        print(answer)
     if answer:
         await message.answer(answer)
 
