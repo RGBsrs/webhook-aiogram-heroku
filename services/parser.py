@@ -41,7 +41,7 @@ class PdaParser(BaseParser):
         return content
 
 
-class HabrParser:
+class HabrParser(BaseParser):
 
     def __init__(self) -> None:
         self.base_url = 'https://habr.com/ru/all/'
