@@ -30,6 +30,11 @@ async def echo(message: types.Message):
         logging.warning('make asnwer')
         await message.answer(posts)
 
+@dp.message_handler(content_types=['photo'])
+async def handle_docs_photo(message):
+
+    await message.photo[-1].download('test.jpg')
+
 async def on_startup(dp):
     logging.warning(
         'Starting connection. ')
