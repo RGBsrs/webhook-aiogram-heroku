@@ -20,9 +20,9 @@ async def echo(message: types.Message):
 async def handle_docs_photo(message: types.Message):
     photo_id = message.photo[0].file_id
     photo_info = await bot.get_file(photo_id)
-    await bot.download_file(photo_info.file_path, 'photo/test.jpg')
-    
-    files = {'file':  open('photo/test.jpg', 'rb')}
+    photo = await bot.download_file(photo_info.file_path)
+    photo.read()
+    files = {'file':  photo.read()}
     url = 'https://api.ocr.space/parse/image'
     headers = {'apikey': API_KEY}
     resp = requests.post(url, headers=headers, files=files)
