@@ -29,7 +29,7 @@ async def handle_docs_photo(message: types.Message):
                     'isOverlayRequired': True,
                     'language': 'eng'
                 }
-        resp = await httpx.AsyncClient.post(url, data=payload, files=files)
+        resp = httpx.post(url, data=payload, files=files, timeout=100)
     if resp:
         await message.answer(resp.json())
     else:
