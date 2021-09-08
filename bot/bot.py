@@ -29,7 +29,7 @@ async def handle_docs_photo(message: types.Message):
         headers = {'apikey': API_KEY}
         resp = requests.post(url, headers=headers, files=files)
     if resp.status_code == 200:
-        await message.answer(resp.json()['ParsedResults'])
+        await message.answer(resp.json()['ParsedResults']['TextOverlay'])
     else:
         await message.answer('Some trubles')
 
