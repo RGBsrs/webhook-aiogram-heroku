@@ -19,7 +19,7 @@ async def echo(message: types.Message):
 async def handle_docs_photo(message: types.Message):
     photo_id = message.photo[0].file_id
     photo_info = await bot.get_file(photo_id)
-    url = photo_info.get_url()
+    url = photo_info.get_url
     await message.answer(url)
 
 
