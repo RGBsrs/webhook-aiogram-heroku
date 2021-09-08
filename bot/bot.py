@@ -17,9 +17,10 @@ async def echo(message: types.Message):
 
 @dp.message_handler(content_types=['photo'])
 async def handle_docs_photo(message: types.Message):
-    answ = await message.document.file_id
-    await message.answer(answ)
-    await message.photo[-1].download_big('test.jpg', timeout=30, chunk_size=65536)
+    photo_id = message.photo[0].file_id
+    photo_info = await bot.get_file(photo_id)
+    url = photo_info.get_url()
+    await message.answer(url)
 
 
 async def on_startup(dp):
