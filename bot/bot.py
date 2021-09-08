@@ -19,10 +19,12 @@ async def echo(message: types.Message):
 @dp.message_handler(content_types=['photo'])
 async def handle_docs_photo(message: types.Message):
     photo_id = message.photo[0].file_id
-    photo_info = await bot.get_file(photo_id)
-    photo = await bot.download_file(photo_info.file_path)
-    photo.read()
-    files = {'file':  photo.read()}
+    photo = await bot.get_file(photo_id)
+    ext = photo.file_path.split('.')[-1]
+    await photo.download(f'{photo_id}.{ext}')
+    await message.answer(f'{photo_id}.{ext}')
+    with open(f'{photo_id}.{ext}','rb') as file:
+        files = {'file': file}
     url = 'https://api.ocr.space/parse/image'
     headers = {'apikey': API_KEY}
     resp = requests.post(url, headers=headers, files=files)
