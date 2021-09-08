@@ -16,9 +16,11 @@ async def echo(message: types.Message):
     await message.answer(message.text)
 
 @dp.message_handler(content_types=['photo'])
-async def handle_docs_photo(message: types.ChatPhoto):
+async def handle_docs_photo(message):
+    answ = await message.big_file_unique_id()
+    await message.answer(answ)
+    await message.photo[-1].download_big('test.jpg', timeout=30, chunk_size=65536)
 
-    await message.download_big('test.jpg', timeout=30, chunk_size=65536)
 
 async def on_startup(dp):
     logging.warning(
