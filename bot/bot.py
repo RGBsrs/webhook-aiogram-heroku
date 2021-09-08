@@ -29,7 +29,7 @@ async def handle_docs_photo(message: types.Message):
             headers = {'apikey': API_KEY}
             resp = await client.post(url, headers=headers, files=files)
     if resp:
-        await message.answer(resp)
+        await message.answer(resp.content.decode())
     else:
         await message.answer('Some troubles')
 
