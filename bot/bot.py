@@ -5,13 +5,10 @@ from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils.executor import start_webhook
 from bot.settings import *
-from services.parser import PdaParser, HabrParser
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher(bot)
 dp.middleware.setup(LoggingMiddleware())
-pda_parser = PdaParser()
-habr_parser = HabrParser()
 
 
 @dp.message_handler(content_types=['text'])
@@ -19,9 +16,9 @@ async def echo(message: types.Message):
     await message.answer(message.text)
 
 @dp.message_handler(content_types=['photo'])
-async def handle_docs_photo(message):
+async def handle_docs_photo(message: types.ChatPhoto):
 
-    await message.photo[-1].download('test.jpg')
+    await message.download_big('test.jpg', timeout=30, chunk_size=65536)
 
 async def on_startup(dp):
     logging.warning(
