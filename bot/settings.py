@@ -2,6 +2,7 @@ import os
 
 
 BOT_TOKEN = os.getenv('BOT_TOKEN')
+API_KEY = os.getenv('OCR_API_KEY')
 if not BOT_TOKEN:
     print('You have forgot to set BOT_TOKEN')
     quit()

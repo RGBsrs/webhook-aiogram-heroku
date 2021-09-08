@@ -1,4 +1,5 @@
 import logging
+import requests
 
 from aiogram import Bot, types
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
@@ -19,8 +20,13 @@ async def echo(message: types.Message):
 async def handle_docs_photo(message: types.Message):
     photo_id = message.photo[0].file_id
     photo_info = await bot.get_file(photo_id)
-    url = photo_info.file_path
-    await message.answer(url)
+    file = photo_info.file_path
+    files = {'file':  open(file, 'rb')}
+    url = 'https://api.ocr.space/parse/image'
+    headers = {'apikey': API_KEY}
+    resp = requests.post(url, headers=headers, files=files)
+
+    await message.answer(resp.status_code)
 
 
 async def on_startup(dp):
