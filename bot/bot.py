@@ -16,8 +16,8 @@ async def echo(message: types.Message):
     await message.answer(message.text)
 
 @dp.message_handler(content_types=['photo'])
-async def handle_docs_photo(message):
-    answ = await message.photo[-1].big_file_unique_id()
+async def handle_docs_photo(message: types.Message):
+    answ = await message.document.file_id
     await message.answer(answ)
     await message.photo[-1].download_big('test.jpg', timeout=30, chunk_size=65536)
 
