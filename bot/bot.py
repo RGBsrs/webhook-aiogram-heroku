@@ -23,7 +23,7 @@ async def handle_docs_photo(message: types.Message):
     ext = photo.file_path.split('.')[-1]
     await photo.download(f'{photo_id}.{ext}')
     async with httpx.AsyncClient() as client:
-        async with open(f'{photo_id}.{ext}','rb') as file:
+        with open(f'{photo_id}.{ext}','rb') as file:
             files = {f'{photo_id}.{ext}': file}
             url = 'https://api.ocr.space/parse/image'
             headers = {'apikey': API_KEY}
