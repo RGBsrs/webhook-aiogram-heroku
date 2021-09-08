@@ -25,7 +25,7 @@ async def handle_docs_photo(message: types.Message):
     with open(f'{photo_id}.{ext}','rb') as file:
         files = {f'{photo_id}.{ext}': file}
         url = 'https://api.ocr.space/parse/image'
-        payload = {'apikey': 'helloworld',
+        payload = {'apikey': API_KEY,
                     'isOverlayRequired': True,
                     'language': 'eng'
                 }
