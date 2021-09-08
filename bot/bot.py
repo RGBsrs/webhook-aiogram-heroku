@@ -22,15 +22,14 @@ async def handle_docs_photo(message: types.Message):
     photo = await bot.get_file(photo_id)
     ext = photo.file_path.split('.')[-1]
     await photo.download(f'{photo_id}.{ext}')
-    async with httpx.AsyncClient() as client:
-        with open(f'{photo_id}.{ext}','rb') as file:
-            files = {f'{photo_id}.{ext}': file}
-            url = 'https://api.ocr.space/parse/image'
-            payload = {'apikey': 'helloworld',
-                        'isOverlayRequired': True,
-                        'language': 'eng'
-                    }
-            resp = client.post(url, data=payload, files=files)
+    with open(f'{photo_id}.{ext}','rb') as file:
+        files = {f'{photo_id}.{ext}': file}
+        url = 'https://api.ocr.space/parse/image'
+        payload = {'apikey': 'helloworld',
+                    'isOverlayRequired': True,
+                    'language': 'eng'
+                }
+        resp = httpx.post(url, data=payload, files=files)
     if resp:
         await message.answer(resp.json())
     else:
