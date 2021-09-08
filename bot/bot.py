@@ -28,8 +28,10 @@ async def handle_docs_photo(message: types.Message):
         url = 'https://api.ocr.space/parse/image'
         headers = {'apikey': API_KEY}
         resp = requests.post(url, headers=headers, files=files)
-    
-    await message.answer(resp.status_code)
+    if resp.status_code == 200:
+        await message.answer(resp.json()['ParsedResults'])
+    else:
+        await message.answer('Some trubles')
 
 
 async def on_startup(dp):
