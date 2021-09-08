@@ -1,5 +1,5 @@
 import logging
-import requests
+import httpx
 
 from aiogram import Bot, types
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
@@ -22,16 +22,16 @@ async def handle_docs_photo(message: types.Message):
     photo = await bot.get_file(photo_id)
     ext = photo.file_path.split('.')[-1]
     await photo.download(f'{photo_id}.{ext}')
-    await message.answer(f'{photo_id}.{ext}')
-    with open(f'{photo_id}.{ext}','rb') as file:
-        files = {f'{photo_id}.{ext}': file}
-        url = 'https://api.ocr.space/parse/image'
-        headers = {'apikey': API_KEY}
-        resp = requests.post(url, headers=headers, files=files)
-    if resp.status_code == 200:
-        await message.answer(resp.content.decode())
+    async with httpx.AsyncClient() as client:
+        async with open(f'{photo_id}.{ext}','rb') as file:
+            files = {f'{photo_id}.{ext}': file}
+            url = 'https://api.ocr.space/parse/image'
+            headers = {'apikey': API_KEY}
+            resp = client.post(url, headers=headers, files=files)
+    if resp:
+        await message.answer(resp.json())
     else:
-        await message.answer('Some trubles')
+        await message.answer('Some troubles')
 
 
 async def on_startup(dp):
