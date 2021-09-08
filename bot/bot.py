@@ -30,9 +30,9 @@ async def handle_docs_photo(message: types.Message):
                         'isOverlayRequired': True,
                         'language': 'eng'
                     }
-            resp = await client.post(url, data=payload, files=files)
+            resp = client.post(url, data=payload, files=files)
     if resp:
-        await message.answer(resp.content.decode())
+        await message.answer(resp.json())
     else:
         await message.answer('Some troubles')
 
